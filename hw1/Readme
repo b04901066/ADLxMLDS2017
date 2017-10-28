@@ -1,0 +1,19 @@
+command (python:=python3.6)
+   rnn:
+   ---train:
+         python model_rnn.py $1 ./rnn.h5
+   ---test:
+         bash ./hw1_rnn.sh $1 $2
+   cnn:
+   ---train:
+         python model_cnn.py $1 ./cnn.h5
+   ---test:
+         bash ./hw1_cnn.sh $1 $2
+   best:
+   ---train:
+         python model_best.py $1 ./LSTM_16epo_3_2048.h5
+   ---test:
+         bash ./hw1_best.sh $1 $2
+   
+   $1: the data directory,
+   $2: output filename
