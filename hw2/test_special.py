@@ -21,7 +21,7 @@ features     = 4096
 max_caption  =   40
 max_sentence =   40
 batch_       =   25
-voca_filter  =    0
+voca_filter  =    2
 
 # readin
 '''
@@ -34,7 +34,7 @@ test_label_f.close()
 npyfiles = os.listdir( os.path.join( sys.argv[1], sys.argv[4], 'feat') )
 X_test = numpy.zeros( ( 5, frame, features), dtype=numpy.float)
 #y_train = numpy.zeros( ( len(train_label), max_caption, max_sentence), dtype=numpy.int16)
-vocabulary = numpy.load('vocabulary.npy')
+vocabulary = numpy.load('./vocabulary.npy')
 counter = 0
 for file in npyfiles:
     if file == 'klteYv1Uv9A_27_33.avi.npy' or file == '5YJaS2Eswg0_22_26.avi.npy' or file == 'UbmZAe5u5FI_132_141.avi.npy' or file == 'JntMAcTlOF0_50_70.avi.npy' or file == 'tJHUH9tpqPg_113_118.avi.npy':
@@ -49,7 +49,7 @@ X_test = numpy.append( X_test, numpy.zeros( ( X_test.shape[0], max_sentence, fea
 model = load_model(sys.argv[3])
 with open(sys.argv[2], 'w', newline='') as csvfile:
     spamwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-    input_X = numpy.append(X_test[batch_*times:X_test.shape[0]], numpy.zeros((batch_*(times+1)-X_test.shape[0], frame+max_sentence, features), numpy.float), axis=0)
+    input_X = numpy.append(X_test, numpy.zeros((batch_-X_test.shape[0], frame+max_sentence, features), numpy.float), axis=0)
     y = numpy.argmax( model.predict( input_X ), axis=2)
     # trimming
     for s in range(5):
@@ -63,4 +63,4 @@ with open(sys.argv[2], 'w', newline='') as csvfile:
         output = output.capitalize()
 
         print(output)
-        spamwriter.writerow([ npyfiles[batch_*times+s], output])
+        spamwriter.writerow([ npyfiles[s], output])
