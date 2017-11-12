@@ -33,7 +33,7 @@ test_label_f.close()
 # testing_data/feat/'id.avi.npy' shape=(80, 4096)=(frame, features)
 npyfiles = os.listdir( os.path.join( sys.argv[1], sys.argv[4], 'feat') )
 X_test = numpy.zeros( ( 5, frame, features), dtype=numpy.float)
-X_ID = numpy.zeros( ( 5), dtype=str)
+X_ID = ['','','','','']
 #y_train = numpy.zeros( ( len(train_label), max_caption, max_sentence), dtype=numpy.int16)
 vocabulary = numpy.load('./vocabulary.npy')
 counter = 0
