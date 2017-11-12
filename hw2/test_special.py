@@ -40,7 +40,7 @@ counter = 0
 for file in npyfiles:
     if file == 'klteYv1Uv9A_27_33.avi.npy' or file == '5YJaS2Eswg0_22_26.avi.npy' or file == 'UbmZAe5u5FI_132_141.avi.npy' or file == 'JntMAcTlOF0_50_70.avi.npy' or file == 'tJHUH9tpqPg_113_118.avi.npy':
         X_test[counter] = numpy.load( os.path.join( sys.argv[1], 'testing_data', 'feat', file))
-        X_ID = file
+        X_ID[counter] = file
         counter += 1
 
 print('X(samples, frame, features):', X_test.shape)
