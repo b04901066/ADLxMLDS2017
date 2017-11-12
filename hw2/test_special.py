@@ -65,4 +65,4 @@ with open(sys.argv[2], 'w', newline='') as csvfile:
         output = output.capitalize()
 
         print(output)
-        spamwriter.writerow([ X_ID[s], output])
+        spamwriter.writerow([ X_ID[s][:-4], output])
