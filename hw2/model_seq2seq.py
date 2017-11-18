@@ -25,7 +25,7 @@ max_sentence =   15
 batch_       =   25
 voca_filter  =    3
 epochs_total =  200
-epochs_same  =   10
+epochs_same  =    2
 
 # readin
 # training_label.json  list.len=1450  
@@ -73,9 +73,9 @@ print('--------------------------------')
 
 # Start training
 model = Sequential()
-model.add(LSTM( 512, input_shape=(X_train.shape[1], X_train.shape[2]), batch_size=batch_, return_sequences=True, stateful=True))
+model.add(LSTM( 256, input_shape=(X_train.shape[1], X_train.shape[2]), batch_size=batch_, return_sequences=True, stateful=True))
 model.add(Dropout(0.25))
-model.add(LSTM( 512, return_sequences=True))
+model.add(LSTM( 256, return_sequences=True))
 model.add(Dropout(0.25))
 model.add(TimeDistributed(Dense( vocabulary.shape[0], activation='softmax')))
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
