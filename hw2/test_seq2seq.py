@@ -64,7 +64,7 @@ with open(sys.argv[2], 'w', newline='') as csvfile:
             output += '.'
             output = output.capitalize()
             output = output.replace("_", " ")
-            output = output.replace(" of.", " of a thing.").replace(" on.", " on a thing.").replace(" up.", " up a thing.").replace(" in.", " in a thing.").replace(" be.", " be a thing.").replace(" of.", " of a thing.").replace(" and.", " and a thing.").replace(".", "")
+            output = output.replace(" of.", " of a stuff.").replace(" on.", " on a stuff.").replace(" up.", " up a stuff.").replace(" in.", " in a stuff.").replace(" be.", " be a stuff.").replace(" of.", " of a stuff.").replace(" at.", " at a palce.").replace(" from.", " from a palce.").replace(" and.", " and a stuff.").replace(".", "")
             if (batch_*times+s) < len(npyfiles) :
                 print(npyfiles[batch_*times+s][:-4] + ',' + output)
                 if sys.argv[4] == 'testing_data' :
