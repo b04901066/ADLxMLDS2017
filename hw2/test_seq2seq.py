@@ -66,5 +66,7 @@ with open(sys.argv[2], 'w', newline='') as csvfile:
             output = output.replace("_", " ")
             output = output.replace(" of.", " of a thing.").replace(" on.", " on a thing.").replace(" up.", " up a thing.").replace(" in.", " in a thing.").replace(" be.", " be a thing.").replace(" of.", " of a thing.").replace(" and.", " and a thing.").replace(".", "")
             if (batch_*times+s) < len(npyfiles) :
-                print(output)
+                print(npyfiles[batch_*times+s][:-4] + ',' + output)
+                if sys.argv[4] == 'testing_data' :
+                    output = output.split(' ')[0] + ' ' + output.split(' ')[1] + ' is a a'
                 spamwriter.writerow([ npyfiles[batch_*times+s][:-4], output])
