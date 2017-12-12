@@ -32,7 +32,7 @@ X_test = numpy.zeros( ( len(npyfiles), frame, features), dtype=numpy.float)
 vocabulary = numpy.load('./vocabulary.npy')
 counter = 0
 for file in npyfiles:
-    X_test[counter] = numpy.load( os.path.join( sys.argv[1], 'testing_data', 'feat', file))
+    X_test[counter] = numpy.load( os.path.join( sys.argv[1], peer_review, 'feat', file))
     counter += 1
 
 print('X(samples, frame, features):', X_test.shape)
