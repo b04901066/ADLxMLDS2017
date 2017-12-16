@@ -167,5 +167,4 @@ class Agent_DQN(Agent):
         ##################
         # YOUR CODE HERE #
         ##################
-        return self.agent.act( observation )
-
+        return self.agent.act( np.reshape(observation, (1, 84, 84, 4)) )
