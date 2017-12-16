@@ -5,11 +5,18 @@ from collections import deque
 import tensorflow as tf
 
 import keras
+import keras.losses
 from keras.models import Sequential, load_model
 from keras.layers import Dense, Flatten, Conv2D
 from keras.layers.advanced_activations import LeakyReLU
 from keras.optimizers import RMSprop
 from keras import backend as K
+
+def _huber_loss(target, prediction):
+    # sqrt(1+error^2)-1
+    error = prediction - target
+    return K.mean(K.sqrt(1+K.square(error))-1, axis=-1)
+keras.losses._huber_loss = _huber_loss
 
 class DQNAgent:
     def __init__(self, state_size, action_size):
@@ -72,7 +79,7 @@ class DQNAgent:
 
 
     def load(self, name):
-        self.model.load_model(name)
+        self.model = load_model(name)
 
     def save(self, name):
         self.model.save(name)
