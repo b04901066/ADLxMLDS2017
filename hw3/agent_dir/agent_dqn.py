@@ -1,8 +1,16 @@
 from agent_dir.agent import Agent
-import os, sys, random
+import os, sys, math, time, random
 import numpy as np
+from itertools import count
+from collections import namedtuple
 from collections import deque
 import tensorflow as tf
+import pickle
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import torch.nn.functional as F
+import torch.autograd as autograd
 
 import keras
 import keras.losses
@@ -17,6 +25,41 @@ def _huber_loss(target, prediction):
     error = prediction - target
     return K.mean(K.sqrt(1+K.square(error))-1, axis=-1)
 keras.losses._huber_loss = _huber_loss
+
+Transition = namedtuple( 'Transition', ('state', 'action', 'next_state', 'reward', 'done'))
+
+use_cuda = torch.cuda.is_available()
+dtype = torch.cuda.FloatTensor if torch.cuda.is_available() else torch.FloatTensor
+
+class Variable(autograd.Variable):
+    def __init__(self, data, *args, **kwargs):
+        if use_cuda:
+            data = data.cuda()
+        super(Variable, self).__init__(data, *args, **kwargs)
+
+class DQN(nn.Module):
+    def __init__(self,state_size,actions_size):
+        super(DQN,self).__init__()
+        self.conv1 = nn.Conv2d(state_size, 32, kernel_size = 8, stride = 4)
+        self.conv1.weight.data.normal_(0, 0.1)
+        #self.bn1 = nn.BatchNorm2d(32)
+        self.conv2 = nn.Conv2d(32, 64, kernel_size = 4, stride = 2)
+        self.conv2.weight.data.normal_(0, 0.1)
+        #self.bn2 = nn.BatchNorm2d(64)
+        self.conv3 = nn.Conv2d(64, 64, kernel_size = 3, stride = 1)
+        self.conv3.weight.data.normal_(0, 0.1)        
+        #self.bn3 = nn.BatchNorm2d(64)
+        self.fc = nn.Linear(64*7*7 , 512)
+        self.fc.weight.data.normal_(0, 0.1)
+        self.output = nn.Linear(512, actions_size)
+        self.output.weight.data.normal_(0, 0.1)
+
+    def forward(self,x):
+        x = F.relu((self.conv1(x)))
+        x = F.relu((self.conv2(x)))
+        x = F.relu((self.conv3(x)))
+        x = F.leaky_relu(self.fc(x.view(x.size(0), -1)))
+        return self.output(x)
 
 class DQNAgent:
     def __init__(self, state_size, action_size):
@@ -90,22 +133,17 @@ class Agent_DQN(Agent):
         Initialize every things you need here.
         For example: building your model
         """
-        gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.1)
-        self.sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
-
         super(Agent_DQN,self).__init__(env)
-
+        self.env = env
+        self.args = args
+        self.state_size = env.observation_space.shape[-1]
+        self.action_size = env.action_space.n
+        self.Q = DQN(self.state_size,self.action_size).type(dtype)
         if args.test_dqn:
             #you can load your model here
             print('loading trained model')
-            self.agent = DQNAgent( (84, 84, 4), 4)
-            self.agent.load("./dqn.h5")
-            print('loading complete')
-
-        ##################
-        # YOUR CODE HERE #
-        ##################
-
+            #self.Q.load_state_dict(torch.load('latest_Q_params.pkl'))
+            self.Q.load_state_dict(torch.load('dqn.pkl'))
 
     def init_game_setting(self):
         """
@@ -117,8 +155,8 @@ class Agent_DQN(Agent):
         ##################
         # YOUR CODE HERE #
         ##################
-        pass
-
+        print('new game')
+        self.start_time = time.time()
 
     def train(self):
         """
@@ -174,4 +212,7 @@ class Agent_DQN(Agent):
         ##################
         # YOUR CODE HERE #
         ##################
-        return np.argmax( self.agent.model.predict( np.reshape(observation, (1, 84, 84, 4)) )[0] )
+        if time.time() - self.start_time > 7:
+            return self.env.get_random_action()
+        obs = torch.from_numpy(np.transpose(observation,(2,0,1))).type(dtype).unsqueeze(0)
+        return self.Q(Variable(obs, volatile=True)).data.max(1)[1].cpu().view(1,1)[0,0]
