@@ -25,7 +25,7 @@ def prepro(o,image_size=[80,80]):
 '''
 # Action values to send to gym environment to move paddle up/down
 UP_ACTION = 2
-DOWN_ACTION = 5
+DOWN_ACTION = 3
 # Mapping from action values to outputs from the policy network
 action_dict = {DOWN_ACTION: 0, UP_ACTION: 1}
 
