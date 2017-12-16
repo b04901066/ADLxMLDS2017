@@ -174,4 +174,4 @@ class Agent_DQN(Agent):
         ##################
         # YOUR CODE HERE #
         ##################
-        return self.agent.act( np.reshape(observation, (1, 84, 84, 4)) )
+        return np.argmax( self.agent.model.predict( np.reshape(observation, (1, 84, 84, 4)) )[0] )
