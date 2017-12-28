@@ -7,7 +7,8 @@
    ```python
    bash run.sh [testing_text.txt]
    ```
-> dcacgan.py contains train.py & generate.py
+
+## dcacgan.py contains train.py & generate.py
 
 ## library
 * Keras (2.1.1) ( Tensorflow backend )  [ (2.0.7) should be fine ]
