@@ -159,12 +159,12 @@ class ACGAN():
         d_model = Dropout(0.25)( d_model )
 
         d_model = BatchNormalization(momentum=0.75)( d_model )
-        d_model = Conv2D( 256, kernel_size=3, strides=1, padding='same')( d_model )
+        d_model = Conv2D( 256, kernel_size=3, strides=2, padding='same')( d_model )
         d_model = LeakyReLU(alpha=0.2)( d_model )
         d_model = Dropout(0.5)( d_model )
 
         d_model = BatchNormalization(momentum=0.75)( d_model )
-        d_model = Conv2D( 256, kernel_size=3, strides=2, padding='same')( d_model )
+        d_model = Conv2D( 256, kernel_size=3, strides=1, padding='same')( d_model )
         d_model = LeakyReLU(alpha=0.2)( d_model )
         d_model = Dropout(0.5)( d_model )
 
