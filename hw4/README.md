@@ -3,6 +3,8 @@
    ```python
    python3.6 train.py
    ```
+   > change path & settings in train.py Class ACGAN.__init__()
+   > change training settings in ACGAN.train(args)
  * test
    ```python
    bash run.sh [testing_text.txt]
