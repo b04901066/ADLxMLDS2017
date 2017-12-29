@@ -50,9 +50,9 @@ if __name__ == '__main__':
                 hair_tags[output_count][1] = 1
             if numpy.count_nonzero(eyes_tags[output_count]) == 0:
                 eyes_tags[output_count][8] = 1
-            gen_img = model.predict( [ noise.reshape(1, 100),
-                                           hair_tags[output_count].reshape(1, 12),
-                                           eyes_tags[output_count].reshape(1, 11) ] )
+            gen_img = model.predict( [ noises[i].reshape(1, 100),
+                                       hair_tags[output_count].reshape(1, 12),
+                                       eyes_tags[output_count].reshape(1, 11) ] )
             # rescale images to 0 ~ 255
             gen_img = 127.5 * gen_img + 127.5
             gen_img = gen_img.astype(dtype=numpy.uint8)
