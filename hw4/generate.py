@@ -57,5 +57,5 @@ if __name__ == '__main__':
             gen_img = 127.5 * gen_img + 127.5
             gen_img = gen_img.astype(dtype=numpy.uint8)
             # sample_(testing_text_id)_(sample_id).jpg
-            imsave('samples/sample_'+ str(IDs[output_count]) + '_' + str(i+1) +'.jpg',
+            imsave('samples/sample_' + str(IDs[output_count]) + '_' + str(i+1) + '.jpg',
                    skimage.transform.resize( gen_img[0], (64, 64)) )
