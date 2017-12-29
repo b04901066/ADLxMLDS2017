@@ -60,14 +60,14 @@ class ACGAN():
         self.noise_dim = 100
         # self.noise_sigma = 0.01
         self.sigma     =   1
-        self.d_loss_weights = [ 1, 0.45, 0.5]
-        self.g_loss_weights = [ 1, 0.45, 0.5]
+        self.d_loss_weights = [ 1, 0.3, 0.35]
+        self.g_loss_weights = [ 1, 0.3, 0.35]
         self.hair_color_dim = len(hair_color)
         self.eye_color_dim  = len( eye_color)
         self.image_dir = '../faces'
         self.tag_path  = './tags_clean.csv'
-        self.model_dir = './modelsigma1/'
-        self.output_dir = './samplessigma1/'
+        self.model_dir = './model/'
+        self.output_dir = './samples/'
 
         optimizer = Adam(lr=0.0002, beta_1=0.5, beta_2=0.999)
 
