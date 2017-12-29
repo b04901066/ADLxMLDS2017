@@ -37,19 +37,12 @@ if __name__ == '__main__':
     # testing_text_id <,> testing_text
     IDs, hair_tags, eyes_tags = prepro_tag( sys.argv[1] )
 
-    models = [ load_model( './models/gen.h5' ) ),
-               load_model( './models/gen.h5' ) ), 
-               load_model( './models/gen.h5' ) ),
-               load_model( './models/gen.h5' ) ),
-               load_model( './models/gen.h5' ) )]
-    
-    sigmas = [ 1, 1, 1, 1, 1]
-
-    noises = [ numpy.load(''),
-               numpy.load(''),
-               numpy.load(''),
-               numpy.load(''),
-               numpy.load('')]
+    model = load_model( './g.h5' )
+    noises = [ numpy.load('./noises/1.npy'),
+               numpy.load('./noises/2.npy'),
+               numpy.load('./noises/3.npy'),
+               numpy.load('./noises/4.npy'),
+               numpy.load('./noises/5.npy') ]
 
     for output_count in range( IDs.shape[0] ):
         for i in range(5):
@@ -64,4 +57,5 @@ if __name__ == '__main__':
             gen_img = 127.5 * gen_img + 127.5
             gen_img = gen_img.astype(dtype=numpy.uint8)
             # sample_(testing_text_id)_(sample_id).jpg
-            imsave( 'samples/sample_'+ str(IDs[output_count]) + '_' + str(i+1) +'.jpg', skimage.transform.resize( gen_img[0], (64, 64)) )
+            imsave('samples/sample_'+ str(IDs[output_count]) + '_' + str(i+1) +'.jpg',
+                   skimage.transform.resize( gen_img[0], (64, 64)) )
