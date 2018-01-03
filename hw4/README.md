@@ -14,6 +14,7 @@
    ```python
    bash extra_run.sh [testing_text.txt]
    ```   
+   
    > This is same as run.sh
 ## library
 * Keras (2.1.1) ( Tensorflow backend )  [ (2.0.7) should be fine ]
