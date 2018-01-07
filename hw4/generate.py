@@ -37,7 +37,7 @@ if __name__ == '__main__':
     # testing_text_id <,> testing_text
     IDs, hair_tags, eyes_tags = prepro_tag( sys.argv[1] )
 
-    model = load_model( './g.h5' )
+    model = load_model( './g.h5', compile=False )
     noises = [ numpy.load('./noises/1.npy'),
                numpy.load('./noises/2.npy'),
                numpy.load('./noises/3.npy'),
